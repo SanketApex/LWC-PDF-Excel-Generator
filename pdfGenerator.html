@@ -1,0 +1,46 @@
+<template>
+    <lightning-button onclick={generateData} label="Generate PDF"></lightning-button>
+    <lightning-card title="Account Details" icon-name="standard:account">
+        <lightning-input
+            label="Account ID"
+            value={accountId}
+            onchange={handleInputChange}
+            placeholder="Enter Account ID"
+        ></lightning-input>
+
+        <template if:true={account}>
+            <h2>{account.Name}</h2>
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer" id="table">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            <div class="slds-truncate" title="First Name">First Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Last Name">Last Name</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate" title="Email">Email</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each={account.Contacts} for:item="contact">
+                        <tr key={contact.Id}>
+                            <td>{contact.FirstName}</td>
+                            <td>{contact.LastName}</td>
+                            <td>{contact.Email}</td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+            <lightning-combobox label="Select Format" value={selectedFormat} options={formatOptions} onchange={handleFormatChange}></lightning-combobox>
+
+            <lightning-button label="Save File" onclick={downloadFile}></lightning-button>
+        </template>
+
+        <template if:true={error}>
+            <p class="slds-text-color_error">{error}</p>
+        </template>
+    </lightning-card>
+</template>
